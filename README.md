@@ -1,13 +1,13 @@
-# [Featurester](https://178.62.82.229)
+# RemoteScreenFlaskAPI
 
 A feature request manager
 
-- Deployed [Here](https://178.62.82.229)
-- GitHub Repository [Here](https://github.com/Miravicson/Featurester)
+- Deployed [Here](https://)
+- GitHub Repository [Here](https://)
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
 
 ### Prerequisites
 
