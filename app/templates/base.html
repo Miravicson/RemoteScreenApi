@@ -1,0 +1,32 @@
+{% extends 'bootstrap/base.html' %}
+{% block title %}
+{% if title %}{{ title }} - Project Title{% else %} Project Title{% endif %}
+{% endblock title %}
+
+{% block styles %}
+
+{% include 'snippets/css.html' %}
+
+{% endblock styles %}
+
+{% block body %}
+
+{% block navbar %}
+
+{% endblock navbar %}
+
+{% block content %}
+
+{% endblock content %}
+
+
+{% block footer %}
+
+{% endblock footer %}
+
+{% block scripts %}
+{% include 'snippets/js.html' %}
+{{ moment.include_moment() }}
+{% endblock scripts %}
+
+{% endblock body %}
