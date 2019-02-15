@@ -107,3 +107,4 @@ ENV/
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 data-test.sqlite
+db.sqlite
