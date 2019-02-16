@@ -6,7 +6,7 @@ from slugify import slugify
 
 class State(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(50), unique=True)
+    name = db.Column(db.String(100), unique=True)
     lgas = db.relationship('Lga', backref=db.backref(
         'state', lazy=True), cascade='all, delete-orphan', lazy=True)
 
@@ -24,7 +24,7 @@ class State(db.Model):
 class Lga(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     state_id = db.Column(db.Integer, db.ForeignKey('state.id'), nullable=False)
-    name = db.Column(db.String(16))
+    name = db.Column(db.String(100))
     locations = db.relationship('Location', backref=db.backref(
         'lga', lazy=True), cascade='all, delete-orphan', lazy=True)
 
