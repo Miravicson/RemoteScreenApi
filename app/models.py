@@ -1,5 +1,7 @@
 from app import db, ma
 from datetime import datetime
+from sqlalchemy import event
+from slugify import slugify
 
 
 class State(db.Model):
@@ -42,6 +44,7 @@ class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     lga_id = db.Column(db.Integer, db.ForeignKey('lga.id'), nullable=False)
     name = db.Column(db.String(200), unique=True)
+    slug_name = db.Column(db.String(200))
     updates = db.relationship('Update', backref=db.backref(
         'location', lazy=True), cascade='all, delete-orphan', lazy=True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -56,6 +59,14 @@ class Location(db.Model):
 
     def __repr__(self):
         return '<Location %r>' % self.name
+
+    @staticmethod
+    def generate_slug(target, value, oldvalue, initiator):
+        if (value and value != oldvalue) or (value and not target.value) :
+            target.slug_name = slugify(value)
+
+
+event.listen(Location.name, 'set', Location.generate_slug, retval=False)
 
 
 class Update(db.Model):
@@ -79,29 +90,3 @@ class Update(db.Model):
         return '<Message %r>' % self.title
 
 
-class UpdateSchema(ma.Schema):
-    class Meta:
-        # Fields to expose
-        fields = ('title', 'PMS', 'DPK', 'AGO')
-
-
-update_schema = UpdateSchema()
-updates_schema = UpdateSchema(many=True)
-
-
-class StateSchema(ma.Schema):
-    class Meta:
-        fields = ('name', 'lgas')
-
-
-state_schema = StateSchema()
-states_schema = StateSchema(many=True)
-
-
-class LocationSchema(ma.Schema):
-    class Meta:
-        fields = ('name', 'updates')
-
-
-location_schema = LocationSchema()
-locations_schema = LocationSchema()

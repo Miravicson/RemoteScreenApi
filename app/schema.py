@@ -1,5 +1,5 @@
 from app import ma, db
-from app.models import State, Lga, Location
+from app.models import State, Lga, Location, Update
 
 
 class StateSchema(ma.ModelSchema):
@@ -30,7 +30,7 @@ lga_schema = LgaSchema()
 class LocationSchema(ma.ModelSchema):
     class Meta:
         model = Location
-        fields = ('id', 'name', 'lga_id', 'updates')
+        fields = ('id', 'name', 'lga_id', 'updates', 'slug_name')
     # links = ma.Hyperlinks({
     #     'self': ma.URLFor('api.lga_detail', id='<id>'),
     #     'collection': ma.URLFor('api.get_lgas')
@@ -38,3 +38,11 @@ class LocationSchema(ma.ModelSchema):
 
 locations_schema = LocationSchema(many=True)
 location_schema = LocationSchema()
+
+class UpdateSchema(ma.ModelSchema):
+    class Meta:
+        model = Update
+
+
+updates_schema = UpdateSchema(many=True)
+update_schema = UpdateSchema()

@@ -2,6 +2,8 @@ import os
 import re
 import json
 from pprint import pprint
+from time import sleep
+
 from app import db, create_app
 from app.models import State, Lga
 
@@ -34,4 +36,7 @@ with app.app_context():
         s.lgas = [Lga(lga) for lga in lgas]
         db.session.add(s)
     db.session.commit()
-    print(State.query.all())
+
+
+sleep(2)
+print("Done with the Population")
