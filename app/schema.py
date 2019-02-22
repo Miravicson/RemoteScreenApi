@@ -12,8 +12,10 @@ class StateSchema(ma.ModelSchema):
         'collection': ma.URLFor('api.get_states')
     })
 
+
 states_schema = StateSchema(many=True)
 state_schema = StateSchema()
+
 
 class LgaSchema(ma.ModelSchema):
     class Meta:
@@ -22,6 +24,7 @@ class LgaSchema(ma.ModelSchema):
         'self': ma.URLFor('api.lga_detail', id='<id>'),
         'collection': ma.URLFor('api.get_lgas')
     })
+
 
 lgas_schema = LgaSchema(many=True)
 lga_schema = LgaSchema()
@@ -36,8 +39,10 @@ class LocationSchema(ma.ModelSchema):
     #     'collection': ma.URLFor('api.get_lgas')
     # })
 
+
 locations_schema = LocationSchema(many=True)
 location_schema = LocationSchema()
+
 
 class UpdateSchema(ma.ModelSchema):
     class Meta:
@@ -46,3 +51,12 @@ class UpdateSchema(ma.ModelSchema):
 
 updates_schema = UpdateSchema(many=True)
 update_schema = UpdateSchema()
+
+
+class RecentSchema(ma.ModelSchema):
+    class Meta:
+        model = Update
+        fields = ('title', 'PMS', 'DPK', 'AGO')
+
+
+recent_schema = RecentSchema()

@@ -2,7 +2,7 @@ from flask import render_template, request, jsonify
 from app import db
 from app.models import (Location, Update, State, Lga)
 from app.schema import (state_schema, states_schema, lga_schema, lgas_schema,
-                        location_schema, locations_schema, update_schema, updates_schema)
+                        location_schema, locations_schema, update_schema, updates_schema, recent_schema)
 
 
 from . import bp
@@ -105,4 +105,4 @@ def delete_update(id):
 def get_recent(location_slug):
     location = Location.query.filter(Location.slug_name == location_slug).first()
     update = location.updates[-1]
-    return jsonify(update_schema.dump(update).data)
+    return jsonify(recent_schema.dump(update).data)
