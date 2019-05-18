@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from app import db
 from . import bp
 
@@ -9,7 +9,10 @@ def not_found_error(error):
 
     code = 404
     message = 'PAGE NOT FOUND'
-    return render_template('errors/error.html', code=code, message=message), code
+    return jsonify({
+        "message": message,
+        "code": code
+    }), code
 
 
 @bp.app_errorhandler(405)
@@ -19,5 +22,7 @@ def method_not_found(error):
     """
     code = 405
     message = 'METHOD NOT FOUND'
-    return render_template('errors/error.html', code=code, message=message), code
-
+    return jsonify({
+        "message": message,
+        "code": code
+    }), code

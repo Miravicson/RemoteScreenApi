@@ -12,6 +12,9 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', default='sqlite:///{}'.format(os.path.join(base_dir, 'db.sqlite')))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
 
 
 class ProductionConfig(Config):
