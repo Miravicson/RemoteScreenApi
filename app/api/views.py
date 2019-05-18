@@ -4,36 +4,42 @@ from app.models import (Location, Update, State, Lga)
 from app.schema import (state_schema, states_schema, lga_schema, lgas_schema,
                         location_schema, locations_schema, update_schema, updates_schema, recent_schema, location_updates_schema, lga_locations_schema,
                         lga_location_updates_schema)
+from flask_jwt_extended import jwt_required
 
 
 from . import bp
 
 
 @bp.route('/api/state', methods=['GET'])
+@jwt_required
 def get_states():
     all_states = State.query.all()
     return jsonify(states_schema.dump(all_states).data)
 
 
 @bp.route('/api/state/<int:id>', methods=['GET'])
+@jwt_required
 def state_detail(id):
     state = State.query.get(id)
     return jsonify(state_schema.dump(state).data)
 
 
 @bp.route('/api/lga', methods=['GET'])
+@jwt_required
 def get_lgas():
     all_lgas = Lga.query.all()
     return jsonify(lgas_schema.dump(all_lgas).data)
 
 
 @bp.route('/api/lga/<int:id>', methods=['GET'])
+@jwt_required
 def lga_detail(id):
     lga = Lga.query.get(id)
     return jsonify(lga_schema.dump(lga).data)
 
 
 @bp.route('/api/location', methods=['GET'])
+@jwt_required
 def get_locations():
     all_locations = Location.query.all()
 
@@ -41,12 +47,14 @@ def get_locations():
 
 
 @bp.route('/api/location/<int:id>', methods=['GET'])
+@jwt_required
 def location_detail(id):
     location = Location.query.get(id)
     return jsonify(location_schema.dump(location).data)
 
 
 @bp.route('/api/location', methods=['POST'])
+@jwt_required
 def post_location():
     data = request.get_json(force=True)
     location = Location(name=data['name'], lga_id=data['lga_id'])
@@ -56,6 +64,7 @@ def post_location():
 
 
 @bp.route('/api/location/<int:id>', methods=['PUT'])
+@jwt_required
 def update_location(id):
     location = Location.query.get(id)
     data = request.get_json(force=True)
@@ -67,6 +76,7 @@ def update_location(id):
 
 
 @bp.route('/api/location/<int:id>', methods=['DELETE'])
+@jwt_required
 def delete_location(id):
     location = Location.query.get(id)
     db.session.delete(location)
@@ -75,12 +85,14 @@ def delete_location(id):
 
 
 @bp.route('/api/update', methods=['GET'])
+@jwt_required
 def get_update():
     all_updates = Update.query.all()
     return jsonify(updates_schema.dump(all_updates).data)
 
 
 @bp.route('/api/update', methods=['POST'])
+@jwt_required
 def post_update():
     title = request.get_json()['title']
     PMS = request.get_json()['PMS']
@@ -95,6 +107,7 @@ def post_update():
 
 
 @bp.route('/api/update/<int:id>', methods=['DELETE'])
+@jwt_required
 def delete_update(id):
     update = Update.query.get(id)
     db.session.delete(update)
@@ -103,6 +116,7 @@ def delete_update(id):
 
 
 @bp.route('/api/recent/<string:location_slug>', methods=["GET"])
+@jwt_required
 def get_recent(location_slug):
     location = Location.query.filter(
         Location.slug_name == location_slug).first()
@@ -111,6 +125,7 @@ def get_recent(location_slug):
 
 
 @bp.route('/api/lga-locations', methods=['GET'])
+@jwt_required
 def lga_with_locations():
     lga_locations = Lga.query.all()
 
@@ -118,18 +133,21 @@ def lga_with_locations():
 
 
 @bp.route('/api/location-updates', methods=['GET'])
+@jwt_required
 def location_with_updates():
     location_updates = Location.query.all()
     return jsonify(location_updates_schema.dump(location_updates).data)
 
 
 @bp.route('/api/lga-location-updates', methods=['GET'])
+@jwt_required
 def lga_location_update():
     lga_location_updates = Lga.query.all()
     return jsonify(lga_location_updates_schema.dump(lga_location_updates).data)
 
 
 @bp.route('/api/average-price', methods=['GET'])
+@jwt_required
 def average_price():
     locations = Location.query.all()
     last_update_per_location = (
@@ -154,8 +172,8 @@ def average_price():
 
 
 @bp.route('/api/location-recent', methods=['GET'])
+@jwt_required
 def location_recent_update():
     locations = Location.query.all()
     recents = (l.updates[-1] for l in locations if len(l.updates) > 0)
-
     return jsonify(updates_schema.dump(recents).data)
