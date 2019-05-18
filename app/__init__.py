@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
@@ -53,6 +53,12 @@ def create_app(config_class=config):
     def check_if_token_in_blacklist(decrypted_token):
         jti = decrypted_token['jti']
         return RevokedTokenModel.is_jti_blacklisted(jti)
+
+    @app.route('/')
+    def index():
+        return jsonify({
+            "message": "Home for the RemoteScreen API"
+        })
 
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp)
